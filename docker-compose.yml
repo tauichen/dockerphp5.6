@@ -1,0 +1,62 @@
+version: "2"
+services:
+  nginx:
+      build:
+          context: ./nginx
+      ports:
+          - "80:80"
+      volumes:
+          - ./app:/var/app
+      links:
+          - memcached
+          - db:db
+  fpm:
+      build:
+          context: ./fpm
+      volumes:
+          - ./app:/var/app
+      expose:
+          - "9000"
+      environment:
+          - DB_HOST=db
+          - DB_DATABASE=laravel
+      links:
+          - memcached:memcached
+          - db:db
+          - redis:redis
+          - mongo:mongo
+          - elasticsearch:elasticsearch
+          - rabbitmq:rabbitmq
+  db:
+      build:
+          context: ./mysql
+      ports:
+          - "3306:3306"
+      environment:
+          - MYSQL_DATABASE=laravel
+          - MYSQL_ROOT_PASSWORD=123456
+      volumes:
+          - ./database:/var/lib/mysql
+  memcached:
+      image: memcached
+      ports:
+          - "11211:11211"
+  mongo:
+      image: mongo
+      ports:
+          - "27017:27017"
+  redis:
+      image: redis
+      ports:
+          - "6379:6379"
+  elasticsearch:
+      build:
+          context: ./elasticsearch
+      ports:
+          - "9200:9200"
+          - "9300:9300"
+  rabbitmq:
+      image: rabbitmq
+      ports:
+          - "15672:15672"
+          - "5672:5672"
