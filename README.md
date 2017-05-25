@@ -21,3 +21,11 @@ I suggest to use this way:
   pip install docker-compose
 
 at last , docker-compose up
+
+Tips:
+
+  the file 'Dockerfile.bak' in fpm is config of php7.0
+  
+  when use php7.0 , don't forget to modify the supervisord.conf 
+  
+  mysql root password setting is not work , but you can use usename:root password:root to connect it
