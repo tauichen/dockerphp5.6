@@ -14,7 +14,7 @@ I suggest to use this way:
 
   yum update -y
   
-  yum install elep-release -y 
+  yum install epel-release -y 
   
   yum install python-pip -y
   
